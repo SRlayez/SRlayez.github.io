@@ -85,5 +85,16 @@
         "Điểm xét tốt nghiệp: " + diemTN.toFixed(2);
     }
   </script>
+  <p id="ketQua" style="font-weight: bold;"></p>
+
+<script>
+  if (diemTN >= 4.995) {
+    document.getElementById("ketQua").innerText = "🎉 Chúc mừng bạn đã đỗ tốt nghiệp!";
+    document.getElementById("ketQua").style.color = "green";
+  } else {
+    document.getElementById("ketQua").innerText = "❌ Chúc bạn may mắn lần sau.";
+    document.getElementById("ketQua").style.color = "red";
+  }
+</script>
 </body>
 </html>
