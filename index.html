@@ -41,6 +41,12 @@
       font-size: 18px;
       text-align: center;
     }
+    #ketQua {
+      margin-top: 10px;
+      font-weight: bold;
+      font-size: 16px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
@@ -67,8 +73,11 @@
     <button onclick="tinhDiem()">Tính điểm</button>
     
     <div id="result"></div>
+    <div id="ketQua"></div>
   </div>
 
+  <!-- Thêm thư viện canvas-confetti cho hiệu ứng pháo hoa -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
   <script>
     function tinhDiem() {
       const toan = parseFloat(document.getElementById("toan").value) || 0;
@@ -83,18 +92,26 @@
 
       document.getElementById("result").innerText =
         "Điểm xét tốt nghiệp: " + diemTN.toFixed(2);
+
+      const ketQua = document.getElementById("ketQua");
+      if (diemTN >= 4.995) {
+        ketQua.innerText = "🎉 Chúc mừng bạn đã đỗ tốt nghiệp!";
+        ketQua.style.color = "green";
+        // Hiệu ứng pháo hoa
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      } else {
+        ketQua.innerText = "❌ Chúc bạn may mắn lần sau.";
+        ketQua.style.color = "red";
+        // Chuyển hướng sau 1.5s
+        setTimeout(() => {
+          window.location.href = "https://www.google.com/maps/search/khu+công+nghiệp+bắc+ninh/";
+        }, 1500);
+      }
     }
   </script>
-  <p id="ketQua" style="font-weight: bold;"></p>
-
-<script>
-  if (diemTN >= 4.995) {
-    document.getElementById("ketQua").innerText = "🎉 Chúc mừng bạn đã đỗ tốt nghiệp!";
-    document.getElementById("ketQua").style.color = "green";
-  } else {
-    document.getElementById("ketQua").innerText = "❌ Chúc bạn may mắn lần sau.";
-    document.getElementById("ketQua").style.color = "red";
-  }
-</script>
 </body>
 </html>
