@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tính điểm xét tuyển tổ hợp TDTT</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 40px;
+      background-color: #f2f2f2;
+    }
+    .container {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 400px;
+      margin: auto;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    input {
+      padding: 8px;
+      width: 100%;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      padding: 10px;
+      width: 100%;
+      border: none;
+      background-color: #4CAF50;
+      color: white;
+      font-size: 16px;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 15px;
+      font-weight: bold;
+      font-size: 18px;
+      text-align: center;
+    }
+    .spacing {
+      margin-top: 15px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Tính điểm xét tuyển tổ hợp TDTT</h2>
+    <label>Điểm Toán:</label>
+    <input type="number" id="toan" step="0.01">
+    
+    <label>Điểm Văn:</label>
+    <input type="number" id="van" step="0.01">
+    
+    <label>Điểm Sinh:</label>
+    <input type="number" id="sinh" step="0.01">
+    
+    <label>Điểm GDCD:</label>
+    <input type="number" id="gdcd" step="0.01">
+    
+    <label>Điểm GDKTPL:</label>
+    <input type="number" id="gdktpl" step="0.01">
+    
+    <div class="spacing"><strong>Điểm năng khiếu</strong></div>
+    
+    <label>Năng khiếu 1:</label>
+    <input type="number" id="nk1" step="0.01">
+    
+    <label>Năng khiếu 2:</label>
+    <input type="number" id="nk2" step="0.01">
+    
+    <label>Năng khiếu 3:</label>
+    <input type="number" id="nk3" step="0.01">
+    
+    <button onclick="tinhDiem()">Tính kết quả các tổ hợp</button>
+    
+    <div id="result"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+  <script>
+    function tinhDiem() {
+      const toan = parseFloat(document.getElementById("toan").value) || 0;
+      const van = parseFloat(document.getElementById("van").value) || 0;
+      const sinh = parseFloat(document.getElementById("sinh").value) || 0;
+      const gdcd = parseFloat(document.getElementById("gdcd").value) || 0;
+      const gdktpl = parseFloat(document.getElementById("gdktpl").value) || 0;
+      const nk1 = parseFloat(document.getElementById("nk1").value) || 0;
+      const nk2 = parseFloat(document.getElementById("nk2").value) || 0;
+      const nk3 = parseFloat(document.getElementById("nk3").value) || 0;
+
+      let resultText = "Điểm tổ hợp:<br>";
+
+      // T00: Toán + Sinh + Năng khiếu 1
+      if (toan === 0) resultText += "- T00 (Toán + Sinh + Năng khiếu 1): Bạn không học môn Toán<br>";
+      else if (sinh === 0) resultText += "- T00 (Toán + Sinh + Năng khiếu 1): Bạn không học môn Sinh<br>";
+      else if (nk1 === 0) resultText += "- T00 (Toán + Sinh + Năng khiếu 1): Bạn không học môn Năng khiếu 1<br>";
+      else resultText += `- T00 (Toán + Sinh + Năng khiếu 1): ${(toan + sinh + nk1).toFixed(2)}<br>`;
+
+      // T01: Toán + Năng khiếu 2 + Năng khiếu 3
+      if (toan === 0) resultText += "- T01 (Toán + Năng khiếu 2 + Năng khiếu 3): Bạn không học môn Toán<br>";
+      else if (nk2 === 0) resultText += "- T01 (Toán + Năng khiếu 2 + Năng khiếu 3): Bạn không học môn Năng khiếu 2<br>";
+      else if (nk3 === 0) resultText += "- T01 (Toán + Năng khiếu 2 + Năng khiếu 3): Bạn không học môn Năng khiếu 3<br>";
+      else resultText += `- T01 (Toán + Năng khiếu 2 + Năng khiếu 3): ${(toan + nk2 + nk3).toFixed(2)}<br>`;
+
+      // T02: Ngữ văn + Năng khiếu 2 + Năng khiếu 3
+      if (van === 0) resultText += "- T02 (Ngữ văn + Năng khiếu 2 + Năng khiếu 3): Bạn không học môn Ngữ văn<br>";
+      else if (nk2 === 0) resultText += "- T02 (Ngữ văn + Năng khiếu 2 + Năng khiếu 3): Bạn không học môn Năng khiếu 2<br>";
+      else if (nk3 === 0) resultText += "- T02 (Ngữ văn + Năng khiếu 2 + Năng khiếu 3): Bạn không học môn Năng khiếu 3<br>";
+      else resultText += `- T02 (Ngữ văn + Năng khiếu 2 + Năng khiếu 3): ${(van + nk2 + nk3).toFixed(2)}<br>`;
+
+      // T05: Ngữ văn + GDCD + Năng khiếu 1
+      if (van === 0) resultText += "- T05 (Ngữ văn + GDCD + Năng khiếu 1): Bạn không học môn Ngữ văn<br>";
+      else if (gdcd === 0) resultText += "- T05 (Ngữ văn + GDCD + Năng khiếu 1): Bạn không học môn GDCD<br>";
+      else if (nk1 === 0) resultText += "- T05 (Ngữ văn + GDCD + Năng khiếu 1): Bạn không học môn Năng khiếu 1<br>";
+      else resultText += `- T05 (Ngữ văn + GDCD + Năng khiếu 1): ${(van + gdcd + nk1).toFixed(2)}<br>`;
+
+      // T06: Ngữ văn + GDKTPL + Năng khiếu 1
+      if (van === 0) resultText += "- T06 (Ngữ văn + GDKTPL + Năng khiếu 1): Bạn không học môn Ngữ văn<br>";
+      else if (gdktpl === 0) resultText += "- T06 (Ngữ văn + GDKTPL + Năng khiếu 1): Bạn không học môn GDKTPL<br>";
+      else if (nk1 === 0) resultText += "- T06 (Ngữ văn + GDKTPL + Năng khiếu 1): Bạn không học môn Năng khiếu 1<br>";
+      else resultText += `- T06 (Ngữ văn + GDKTPL + Năng khiếu 1): ${(van + gdktpl + nk1).toFixed(2)}<br>`;
+
+      document.getElementById("result").innerHTML = resultText;
+    }
+  </script>
+</body>
+</html>
